@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Cadastro de Contatos</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="/contato">Contato</a></li>
+	      <li><a href="/funcionario">Funcionário</a></li>
+	    </ul>
+	  </div>
+	</nav>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong>Cadastro de Contato</strong>
+		</div>
+		<div class="panel-body">
+			<form class="form-horizontal" th:object="${contato}" th:action="@{/contato/save}" method="POST" style="margin: 10px">
+				<div class="form-group">
+ 					<fieldset>
+						<div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+						    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>    
+						</div>
+						<div class="form-group row">
+							<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+								<div th:each="detailedError : ${#fields.detailedErrors()}">
+									<span th:text="${detailedError.message}"></span>
+								</div>
+							</div>
+						</div> 					
+						<div class="form-group row">
+						    <div class="col-md-1">
+						        <input type="text" class="form-control input-sm" id="id" th:field="*{id}" readOnly="readonly"/>
+						    </div>
+						 </div>
+						<div class="form-group row">                                                          
+							<div class="col-md-4" th:classappend="${#fields.hasErrors('descricao')}? 'has-error'">
+							    <label>Descrição</label>
+							    <input type="text" class="form-control input-sm" th:field="*{descricao}" autofocus="autofocus" placeholder="Informe a descrição" maxlength="50" th:required="required"/>
+							</div>
+						</div>
+						<div class="form-group row">                                                          
+							<div class="col-md-4" th:classappend="${#fields.hasErrors('tipoContato')}? 'has-error'">
+							    <label>Tipo</label>
+								<select id="tipoContato" class="form-control" name="tipoContato" th:field="*{tipoContato}" th:required="required">
+									<option value="" selected="selected">Selecione</option>
+									<option th:each="tipoContato : ${TiposContato}" th:value="${tipoContato}" th:text="${tipoContato.descricao}">tipoContato</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">                                                          
+							<div class="col-md-4" th:classappend="${#fields.hasErrors('funcionario')}? 'has-error'">
+							    <label>Funcionário</label>
+								<select id="funcionario" class="form-control" name="funcionario" th:field="*{funcionario.id}" th:required="required">
+									<option value="" selected="selected">Selecione</option>
+									<option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"></option>
+								</select>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="form-group row">
+					<button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+					<a th:href="@{/contato}" class="btn btn-sm btn-default">Cancelar</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
