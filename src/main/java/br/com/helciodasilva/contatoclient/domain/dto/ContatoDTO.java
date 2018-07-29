@@ -3,7 +3,7 @@ package br.com.helciodasilva.contatoclient.domain.dto;
 import lombok.Data;
 
 @Data
-public class Contato {
+public class ContatoDTO {
 
 	private Long id;
 
@@ -11,6 +11,6 @@ public class Contato {
 
 	private String descricao;
 
-	private Funcionario funcionario;
+	private FuncionarioDTO funcionario;
 
 }
